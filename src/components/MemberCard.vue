@@ -39,7 +39,7 @@
             <p
                 class="text-yellow-700 italic font-black text-lg"
                 :style="nameStyle"
-            >{{ charData.name }}</p>
+            >{{ charData?.name }}</p>
         </div>
     </div>
 </template>
@@ -82,7 +82,7 @@ export default defineComponent({
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1) + min);
         };
-        const charData = ref<Person>([]);
+        const charData = ref<Person>();
         const res: any = await axios.get(
             "https://xivapi.com/character/" + props.lodeStone
         );
