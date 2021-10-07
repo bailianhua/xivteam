@@ -1,6 +1,6 @@
 <template>
   <video-background
-    src="/videos/endwalkerLogin.mp4"
+    src="videos/endwalkerLogin.mp4"
     class="absolute z-0 w-auto min-w-full min-h-full"
     :loop="false"
   >
