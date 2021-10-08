@@ -12,6 +12,7 @@
     "@tailwindcss/forms": "^0.3.4",
     "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.22.0",
+    "firebase": "^9.1.2",
     "vue": "^3.2.16",
     "vue-axios": "^3.3.7",
     "vue-responsive-video-background-player": "^2.2.0",

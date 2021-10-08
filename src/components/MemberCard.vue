@@ -3,6 +3,15 @@
         class="animate-fade-in-up bg-center group hover:-translate-y-1 hover:scale-110 hover:filter-reset filter grayscale rounded-lg bg-cover bg-no-repeat w-40 shadow-xl border-2 border-yellow-700 bg-gradient-to-t from-grey-900 to-transparent"
         :style="cardStyle"
     >
+        <div
+            class="absolute flex justify-end duration-500 ease-in-out w-full h-10 -inset-y-5 opacity-0 group-hover:opacity-100 transition-all"
+        >
+            <div
+                class="bg-red-800 ring-red-900 text-white rounded-full h-8 w-8 flex mx-2 items-center justify-center ring"
+            >
+                <MinusCircleIcon class="h-6 w-6" @click="removeMember"></MinusCircleIcon>
+            </div>
+        </div>
         <div class="absolute inset-x-0 bottom-0 text-center">
             <div class="m-4 flex justify-around invisible group-hover:visible">
                 <a v-if="hasTwitch" :href="twitchSrc" target="_blank">
@@ -45,14 +54,14 @@
 </template>
 <script lang="ts">
 import { ref } from "@vue/reactivity";
-import { onMounted, defineComponent } from "vue";
-import { SearchCircleIcon } from "@heroicons/vue/solid";
+import { defineComponent } from "vue";
+import { SearchCircleIcon, MinusCircleIcon } from "@heroicons/vue/solid";
 import axios from "axios";
 import Person from "../interfaces/Person";
 
 export default defineComponent({
     name: "MemberCard",
-    components: { SearchCircleIcon },
+    components: { SearchCircleIcon, MinusCircleIcon },
     props: {
         cardName: { Type: String, default: "" },
         profilePic: { Type: String, default: "" },
@@ -61,6 +70,7 @@ export default defineComponent({
         youtubeSrc: { Type: String, default: "" },
         animationDelay: { Type: Number, default: "" },
         lodeStone: { Type: String, default: "" },
+        memberId: String
     },
     computed: {
         hasProfilePic: function () {
@@ -76,12 +86,7 @@ export default defineComponent({
             return this.youtubeSrc != "";
         },
     },
-    async setup(props) {
-        const randomNumber = function (min: number, max: number): number {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        };
+    async setup(props, context) {
         const charData = ref<Person>();
         const res: any = await axios.get(
             "https://xivapi.com/character/" + props.lodeStone
@@ -104,6 +109,9 @@ export default defineComponent({
             cardStyle,
             nameStyle,
             charData,
+            removeMember: () => {
+                context.emit('removeMember', props.lodeStone)
+            }
         };
     },
 });

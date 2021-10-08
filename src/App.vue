@@ -5,9 +5,16 @@
     :loop="false"
   >
     <div
-      class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-10 overflow-hidden bg-gray-800 opacity-90 flex flex-col transition-opacity"
+      class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-10 overflow-scroll bg-gray-800 opacity-90 flex flex-col transition-opacity"
     >
-      <router-view></router-view>
+      <Suspense>
+        <template #default>
+          <router-view></router-view>
+        </template>
+        <template #fallback>
+          <div class="text-gray-100 text-4xl mt-10 text-center">Loading...</div>
+        </template>
+      </Suspense>
     </div>
   </video-background>
 </template>

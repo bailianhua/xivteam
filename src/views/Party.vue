@@ -1,7 +1,10 @@
 <template>
-    <div class="text-gray-100 text-4xl mt-4">
-        <h1 class="text-center">Thoughts Per Second</h1>
-        <div class="fixed flex right-1 top-0 mt-4 space-x-4">
+    <!-- <div class="fixed z-0 mx-auto h-2/5 overflow-hidden w-full">
+        <img :src="teamPictureSrc" class="w-full" />
+    </div>-->
+    <div class="text-gray-100 text-4xl mt-4 z-10">
+        <h1 class="text-center">{{ teamName }}</h1>
+        <div class="fixed flex right-6 top-0 mt-4 space-x-4">
             <span class="cursor-pointer" @click="$router.go(-1)">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +47,12 @@
     </div>
     <suspense>
         <template #default>
-            <MemberList />
+            <div
+                class="flex flex-wrap justify-center w-screen pt-10 overflow-y-auto gap-x-12 gap-y-8 md:gap-x-10 mx-auto pb-96 md:pb-60"
+                style="height: 100%"
+            >
+                <MemberList />
+            </div>
         </template>
         <template #fallback>
             <div class="text-gray-100 text-4xl mt-10 text-center">Loading...</div>
@@ -111,12 +119,15 @@ import {
     DialogOverlay,
     DialogTitle,
 } from '@headlessui/vue'
-import { defineAsyncComponent } from "@vue/runtime-core";
+import { defineAsyncComponent, defineComponent } from "@vue/runtime-core";
 
-export default {
+
+export default defineComponent({
     name: "Party",
     props: {
-        teamid: String,
+        teamId: String,
+        teamName: String,
+        teamPictureSrc: String
     },
     components: {
         TransitionRoot,
@@ -126,13 +137,19 @@ export default {
         DialogTitle,
         MemberList: defineAsyncComponent(() => import('../components/MemberList.vue'))
     },
-    setup() {
+    setup(props: any) {
+        const newmembercard = ref(false);
+        const openNewCardModal = () => {
+            newmembercard.value = true;
+        }
         const showEditModal = ref(false)
 
         return {
-            showEditModal
+            showEditModal,
+            props, openNewCardModal
+
         }
     }
-};
+});
 </script>
 <style lang=""></style>
